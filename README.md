@@ -1,6 +1,4 @@
-Okay, here's a draft for a comprehensive and engaging GitHub README for your project.
 
-```markdown
 # Landmark Image Classification: From Scratch & Transfer Learning with PyTorch 🖼️
 
 This project explores landmark image classification using two distinct deep learning approaches in PyTorch: building a Convolutional Neural Network (CNN) from scratch and leveraging transfer learning with a pre-trained ResNet18 model. The project includes data preprocessing, model training, evaluation, `torch.jit` model export, and an interactive Jupyter Notebook application for real-time classification.
@@ -53,12 +51,11 @@ This project explores landmark image classification using two distinct deep lear
 
 ```
 landmark-classification-pytorch/
-├── checkpoints/           # Saved model weights during training
-├── icons/                 # Icons used in Jupyter notebooks
-├── landmark_images/       # Dataset (downloaded automatically or placed here)
+├── static_images/icons/                 # Icons used in Jupyter notebooks
+├── landmark_images/       # Dataset (downloaded automatically when you run the script)
 │   ├── train/
 │   └── test/
-├── models/                # Exported .pt models for inference
+├── Models/                # Exported .pt models for inference
 │   ├── original_exported.pt
 │   └── transfer_exported.pt
 ├── src/                   # Source code for the project
@@ -93,8 +90,7 @@ landmark-classification-pytorch/
 ### Cloning the Repository
 
 ```bash
-git clone https://github.com/your-username/landmark-classification-pytorch.git
-cd landmark-classification-pytorch
+git clone https://github.com/BinarySkull/Landmark-Image-Classification.git
 ```
 
 ### Setting up the Environment
@@ -204,7 +200,7 @@ The transfer learning approach (`src/transfer.py`):
 
 ---
 
-## Technology Stack 🛠️
+## Technologies used 🛠️
 
 *   **Python:** Core programming language.
 *   **PyTorch:** Deep learning framework for model building, training, and inference.
@@ -234,23 +230,8 @@ Contributions, issues, and feature requests are welcome! Please feel free to for
 
 ## License 📄
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details (you'll need to create this file if you don't have one, typically with standard MIT license text).
+This project is licensed under the MIT License - Have Fun.
 
 ---
 
 Happy Classifying! If you have any questions, feel free to open an issue.
-```
-
-**Before you commit this README:**
-
-1.  **Replace placeholders:**
-    *   `https://github.com/your-username/landmark-classification-pytorch.git` with your actual repository URL.
-2.  **Verify Paths:** Double-check that all file paths mentioned (e.g., for exported models in `app.ipynb`) are consistent with your actual project structure. In your prompt, you mentioned `models/transfer_exported.pt` but the `transfer_learning.ipynb` might save to `checkpoints/transfer_exported.pt`. **Ensure consistency** or clarify in the README if the user needs to move it. I've used `models/` as the primary location for exported models in this README.
-3.  **Create a `LICENSE.md` file:** If you choose the MIT license, grab the standard text from [choosealicense.com](https://choosealicense.com/licenses/mit/) and put it in `LICENSE.md`.
-4.  **Add an Image/GIF (Optional but Engaging):** Consider adding a screenshot of the `app.ipynb` in action or a GIF. You can embed images in Markdown:
-    ```markdown
-    ![App Demo](path_to_your_image.png)
-    ```
-5.  **Test the instructions:** Briefly run through the setup and usage steps yourself to ensure they are clear and correct.
-
-This README aims to be thorough, welcoming, and provide all necessary information for someone to understand, set up, and use your project.
