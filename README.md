@@ -1,10 +1,11 @@
-
 # Landmark Image Classification: From Scratch & Transfer Learning with PyTorch 🖼️
 
-This project explores landmark image classification using two distinct deep learning approaches in PyTorch: building a Convolutional Neural Network (CNN) from scratch and leveraging transfer learning with a pre-trained ResNet18 model. The project includes data preprocessing, model training, evaluation, `torch.jit` model export, and an interactive Jupyter Notebook application for real-time classification.
+This project explores landmark image classification using two distinct deep learning approaches in PyTorch. It covers the full lifecycle from data preparation and model training (custom CNN and ResNet18 transfer learning) to deployment as a **containerized FastAPI application using Docker**. An interactive Jupyter Notebook for experimentation is also included.
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python-3.9-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.9%2B-orange.svg)](https://pytorch.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.70%2B-green.svg)](https://fastapi.tiangolo.com/)
+[![Docker](https://img.shields.io/badge/Docker-20.10%2B-blue.svg)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -12,21 +13,16 @@ This project explores landmark image classification using two distinct deep lear
 ## Table of Contents
 
 *   [Key Features](#key-features)
-*   [Project Structure](#project-structure)
-*   [Setup & Installation](#setup--installation)
+*   [Deployment with Docker & FastAPI](#deployment-with-docker--fastapi)
     *   [Prerequisites](#prerequisites)
-    *   [Cloning the Repository](#cloning-the-repository)
-    *   [Setting up the Environment](#setting-up-the-environment)
-    *   [Dataset](#dataset)
-*   [Usage](#usage)
-    *   [1. Data Preparation & Exploration](#1-data-preparation--exploration)
-    *   [2. Training the CNN from Scratch](#2-training-the-cnn-from-scratch)
-    *   [3. Training with Transfer Learning](#3-training-with-transfer-learning)
-    *   [4. Running the Interactive Classification App](#4-running-the-interactive-classification-app)
-    *   [5. Running Tests](#5-running-tests)
+    *   [Running the Pre-built Image](#running-the-pre-built-image)
+    *   [Building the Image Locally (Optional)](#building-the-image-locally-optional)
+    *   [Interacting with the API](#interacting-with-the-api)
+*   [Local Development & Training](#local-development--training)
+    *   [Project Structure](#project-structure)
+    *   [Setup & Installation](#setup--installation)
+    *   [Usage](#usage)
 *   [Model Details](#model-details)
-    *   [Custom CNN](#custom-cnn)
-    *   [Transfer Learning (ResNet18)](#transfer-learning-resnet18)
 *   [Technology Stack](#technology-stack)
 *   [Contributing](#contributing)
 *   [License](#license)
@@ -35,22 +31,56 @@ This project explores landmark image classification using two distinct deep lear
 
 ## Key Features ✨
 
-*   **Dual Approach:** Implements and compares a custom CNN built from the ground up against a fine-tuned pre-trained ResNet18 model.
-*   **End-to-End Pipeline:** Covers data loading, extensive augmentation (RandAugment, ColorJitter, etc.), training, validation, and testing.
-*   **PyTorch Powered:** Utilizes PyTorch for all model building, training, and inference tasks.
-*   **Robust Training:** Incorporates learning rate scheduling (`ReduceLROnPlateau`), checkpointing for best model saving, and live loss plotting.
+*   **API Deployment:** The trained model is served via a **FastAPI** application, containerized with **Docker** for easy deployment.
+*   **Dual Approach:** Implements and compares a custom CNN built from scratch against a fine-tuned pre-trained ResNet18 model.
+*   **End-to-End Pipeline:** Covers data loading, extensive augmentation (RandAugment, etc.), training, validation, and testing.
 *   **Model Export:** Demonstrates model serialization using `torch.jit.script` for efficient, deployment-ready models.
-*   **Interactive Demo:** Includes a Jupyter Notebook (`app.ipynb`) with `ipywidgets` for an interactive classification experience.
+*   **Interactive Demo:** Includes a Jupyter Notebook (`app.ipynb`) with `ipywidgets` for rapid experimentation.
 *   **Unit Tested:** Core functionalities are backed by `pytest` unit tests to ensure reliability.
 *   **Modular Code:** Well-organized `src/` directory for reusable components.
-*   **Automated Packaging:** Script (`create_submit_pkg.py`) to package project files.
 
 ---
+
+## Deployment with Docker & FastAPI 🐳
+
+The easiest way to run the prediction service is using the pre-built Docker image available on Docker Hub.
+
+### Prerequisites
+*   [Docker](https://www.docker.com/get-started) installed and running on your system.
+
+### Running the Pre-built Image
+
+Pull and run the container in one command. This will expose the API on `port 80` of your local machine.
+
+```bash
+docker run -p 80:80 --name landmark-api skullgrinder123/landmark-api:1.0
+```
+The API will now be accessible at http://localhost:80
+
+## Interacting with the API
+You can send a POST request with an image to the /predict/ endpoint to get a classification. Use one of the images from the test/ directory or your own.
+Here's an example using curl:
+```bash
+curl -X POST -F "file=@test/image1.jpg" http://localhost/predict/
+```
+## Expected Response:
+
+```json
+{
+  "filename": "image1.jpg",
+  "prediction": "CLASS_NAME"
+}
+```
+You can also visit http://localhost/docs in your browser to see the interactive Swagger UI documentation for the API (Amazing feature in FastAPI).
 
 ## Project Structure 📂
 
 ```
 landmark-classification-pytorch/
+├── api/                   # FastAPI application for deployment
+│   ├── Dockerfile
+│   ├── main.py
+│   └── requirements.txt # dependencies inside the container
 ├── static_images/icons/                 # Icons used in Jupyter notebooks
 ├── landmark_images/       # Dataset (downloaded automatically when you run the script)
 │   ├── train/
@@ -213,6 +243,8 @@ The transfer learning approach (`src/transfer.py`):
 *   **tqdm:** For progress bars.
 *   **LiveLossPlot:** For real-time plotting of training metrics.
 *   **Jupyter Notebook/Lab:** For interactive development and demonstration.
+*   **Docker:** For containerizing the endpoint, creating the image, and pushing it to Docker Hub.
+*   **FastAPI:** For creating endpoints to use the model.
 
 ---
 
